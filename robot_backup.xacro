@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="hand_tutorial">
+
+ <xacro:macro name="default_inertial" params="mass">
+    <inertial>
+      <mass value="${mass}" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+</xacro:macro>
+<link name="world"/>
+
+
+
+<link name="base_link">
+	<visual name="link_visual">
+	<geometry>
+	<mesh filename="package://robot_description/meshes/ggwp.stl" />
+	</geometry>
+	<origin xyz="0 0 -0.05" rpy="0 0 0"/>
+	</visual>
+	<collision name="link_collision">
+	<geometry>
+	<mesh filename ="package://robot_description/meshes/ggwp.stl" />
+	</geometry>
+	</collision>
+	<xacro:default_inertial mass="10"/>
+</link>
+
+
+
+<link name="m2m">
+	<visual name="m2m_visual">
+	<geometry>
+	<mesh filename="package://robot_description/meshes/m2mn.stl"/>
+	</geometry>
+	<origin rpy ="0 0 3.14" xyz="0 0 0"/>
+	</visual>
+	<collision name="m2m_collision">
+	<geometry>
+	<mesh filename="package://robot_description/meshes/m2mn.stl"/>
+	</geometry>
+	<origin rpy ="0 0 0" xyz="0 0 0"/>
+	</collision>	
+	<xacro:default_inertial mass="10"/>
+</link>
+
+
+
+<link name="m2m01">
+	<visual name="m2m_visual01">
+	<geometry>
+	<mesh filename="package://robot_description/meshes/m2mn.stl"/>
+	</geometry>
+	<origin rpy ="0 0 3.14" xyz="0 0 0"/>
+	</visual>
+	<collision name="m2m_collision01">
+	<geometry>
+	<mesh filename="package://robot_description/meshes/m2mn.stl"/>
+	</geometry>
+	<origin rpy ="0 0 0" xyz="0 0 0"/>
+	</collision>	
+	<xacro:default_inertial mass="10"/>
+</link>
+
+
+
+<link name="motor">
+	<visual>
+	<geometry>
+	<box size="0.454 0.43 0.29"/>
+	</geometry>
+	<origin rpy="0 0 0" xyz="0 0 0"/>
+	</visual>
+	<collision>
+	<geometry>
+	<box size="0.454 0.33 0.29"/>
+	</geometry>
+	<origin rpy="0 0 0" xyz="0 0 0"/>
+	</collision>
+	<xacro:default_inertial mass="10"/>
+</link>
+
+
+<link name="motor01">
+	<visual>
+	<geometry>
+	<box size="0.454 0.43 0.29"/>
+	</geometry>
+	<origin rpy="0 0 0" xyz="0 0 0"/>
+	</visual>
+	<collision>
+	<geometry>
+	<box size="0.454 0.43 0.4"/>
+	</geometry>
+	<origin rpy="0 0 0" xyz="0 0 0"/>
+	</collision>
+	<xacro:default_inertial mass="10"/>
+</link>
+
+
+
+<joint name="basetoworld" type="fixed">
+	<parent link="world"/>
+	<child link="base_link"/>
+</joint>
+
+
+
+<joint name="basetomotor" type="fixed">
+	
+	<parent link="base_link"/>
+	<child link="motor"/>
+	<origin xyz ="0.2 0 0.285"/>
+	<axis xyz = "0 0 1"/>
+	<!--axis xyz=" 0 0 0"/>
+	<limit effort="0.0" lower = "0.0" upper="0.0" velocity="0.0"/>
+	<origin xyz = "0 0 0"/-->
+	
+</joint>
+
+
+
+
+<joint name="motortom2m" type="revolute">
+	<parent link="motor"/>
+	<child link="m2m"/>
+	<origin xyz ="0.1 0 -0.24"/>
+	<axis xyz = "0 0 1"/>
+	<limit effort="1000.0" lower="-1.0467" upper="1.0467" velocity="0.5"/>
+</joint>	
+
+
+<joint name="joint1" type="fixed">
+	<parent link ="m2m"/>
+	<child link ="motor01"/>
+	
+	<origin xyz = "1.17 0 0.258"/>
+	<limit effort="0" lower = "0.0" upper="0.0" velocity="0.0"/>
+</joint>
+
+
+
+<joint name="joint2" type="revolute">
+	<parent link="motor01"/>
+	<child link="m2m01"/>
+	<origin xyz ="0.1 0 -0.24"/>
+	<axis xyz = "0 0 1"/>
+	<limit effort="1000.0" lower="-1.0467" upper="1.0467" velocity="0.5"/>
+</joint>
+
+
+
+<transmission name="tran1">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="motortom2m">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor1">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+ <!-- ros_control plugin -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/robot</robotNamespace>
+      
+    </plugin>
+  </gazebo>
+</robot>
+				
