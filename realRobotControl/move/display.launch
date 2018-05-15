@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<launch>
+<arg name="model" />
+
+<arg name="gui" default="False" />
+
+<param name="robot_description" command="$(find xacro)/xacro.py '$(find move)/urdf/real.xacro'"/>
+<!-- <node name="joint_state_publisher" pkg="joint_state_publisher" type ="joint_state_publisher"/> -->
+
+<node name="robot_state_publisher" pkg="robot_state_publisher"
+type="state_publisher" >
+	<!--<remap from="/joint_states" to="/motor_state"/>-->
+</node>
+
+<node name="motor_state" pkg="move"
+                                    type="motor_state" >
+	
+</node> 
+
+<node name="rviz" pkg="rviz" type="rviz"/>
+</launch>
