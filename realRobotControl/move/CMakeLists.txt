@@ -203,16 +203,6 @@ include_directories(
 add_executable(rotate src/rotate.cpp)
 target_link_libraries(rotate ${catkin_LIBRARIES})
 
-add_executable(rotateminus src/rotateminus.cpp)
-target_link_libraries(rotateminus ${catkin_LIBRARIES})
 
-add_executable(gazebo_move src/gazebo_move.cpp)
-target_link_libraries(gazebo_move ${catkin_LIBRARIES})
-
-add_executable(sub src/sub.cpp)
-target_link_libraries(sub ${catkin_LIBRARIES})
-
-add_executable(motor_state src/motor_state.cpp)
-target_link_libraries(motor_state ${catkin_LIBRARIES})
 
 
