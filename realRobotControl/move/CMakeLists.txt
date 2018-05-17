@@ -203,6 +203,7 @@ include_directories(
 add_executable(rotate src/rotate.cpp)
 target_link_libraries(rotate ${catkin_LIBRARIES})
 
-
+add_executable(motor_state src/motor_state.cpp)
+target_link_libraries(motor_state ${catkin_LIBRARIES})
 
 
