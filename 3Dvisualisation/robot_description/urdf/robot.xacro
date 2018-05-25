@@ -190,6 +190,23 @@
 </link>
 
 
+<link name="endeffector">
+	<visual name="end_visual">
+	<geometry>
+	<mesh filename="package://robot_description/meshes/end.stl"/>
+	</geometry>
+	<origin rpy= " 0 0 0" xyz ="0 0 0"/>
+	</visual>
+	<collision name="end_collision">
+	<geometry>
+	<mesh filename="package://robot_description/meshes/end.stl"/>
+	</geometry>
+	<origin rpy="0 0 0" xyz="0 0 0"/>
+	</collision>
+	<xacro:default_inertial mass="0.01"/>
+</link>	
+
+
 
 <joint name="basetoworld" type="fixed">
 	<parent link="world"/>
@@ -213,7 +230,7 @@
 	<child link="m2m"/>
 	<origin xyz ="0.14 0 -0.20"/>
 	<axis xyz = "0 0 1"/>
-	<limit effort="1000.0" lower="-1.0467" upper="1.0467" velocity="0.5"/>
+	<limit effort="1000.0" lower="-2.1" upper="2.1" velocity="0.5"/>
 </joint>	
 
 
@@ -232,7 +249,7 @@
 	<child link="m2m01"/>
 	<origin xyz ="0.14 0 -0.187"/>
 	<axis xyz = "0 0 1"/>
-	<limit effort="1000.0" lower="-1.0467" upper="1.0467" velocity="0.5"/>
+	<limit effort="1000.0" lower="-2.1" upper="2.1" velocity="0.5"/>
 </joint>
 
 <joint name="joint3" type ="fixed">
@@ -248,7 +265,7 @@
 	<child link="m2m02"/>
 	<origin xyz ="0.14 0 -0.187"/>
 	<axis xyz = "0 0 1"/>
-	<limit effort="1000.0" lower="-1.0467" upper="1.0467" velocity="0.5"/>
+	<limit effort="1000.0" lower="-2.1" upper="2.1" velocity="0.5"/>
 </joint>
 
 
@@ -266,7 +283,7 @@
 	<child link="m2m03"/>
 	<origin xyz ="0.14 0 -0.187"/>
 	<axis xyz = "0 0 1"/>
-	<limit effort="1000.0" lower="-1.0467" upper="1.0467" velocity="0.5"/>
+	<limit effort="1000.0" lower="-2.1" upper="2.1" velocity="0.5"/>
 </joint>
 
 
@@ -277,6 +294,14 @@
 	<limit effort="0" lower = "0.0" upper="0.0" velocity="0.0"/>
 </joint>
 
+
+<joint name="end" type="revolute">
+	<parent link="motor04"/>
+	<child link ="endeffector"/>
+	<origin xyz="0.12 -0.01 -0.185"/>
+	<axis xyz = "0 0 1"/>
+	<limit effort="1000.0" lower = "-2.1" upper="2.1" velocity="0.5"/>
+</joint>
 
 
 <transmission name="tran1">
@@ -318,6 +343,20 @@
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor4">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+
+
+
+<transmission name="tran4">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="end">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor5">
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
