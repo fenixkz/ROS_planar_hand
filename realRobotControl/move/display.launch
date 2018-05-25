@@ -3,8 +3,8 @@
 <arg name="model" />
 
 <arg name="gui" default="False" />
-
-<param name="robot_description" command="$(find xacro)/xacro.py '$(find move)/urdf/real.xacro'"/>
+#real.xacro
+<param name="robot_description" command="$(find xacro)/xacro.py '$(find robot_description)/urdf/robot.xacro'"/> 
 <!-- <node name="joint_state_publisher" pkg="joint_state_publisher" type ="joint_state_publisher"/> -->
 
 <node name="robot_state_publisher" pkg="robot_state_publisher"
